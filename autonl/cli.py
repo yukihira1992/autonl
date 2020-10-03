@@ -3,11 +3,12 @@ import argparse
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('filename')
+    parser.add_argument('filenames', metavar='filename', nargs='+')
 
     args = parser.parse_args()
 
-    _format(args.filename)
+    for filename in args.filenames:
+        _format(filename)
 
 
 def _format(filename):
