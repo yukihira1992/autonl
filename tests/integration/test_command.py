@@ -32,3 +32,24 @@ class CommandTest(unittest.TestCase):
         expected = 'abc\ndef\nghi\n'
 
         self.assertEqual(expected, actual)
+
+    def test_format_with_multiple_files(self):
+        with tempfile.TemporaryDirectory() as dir:
+            with open(dir + '/input1.txt', 'w') as fp:
+                fp.write('abc\ndef\nghi\n')
+
+            with open(dir + '/input2.txt', 'w') as fp:
+                fp.write('abc\ndef\nghi')
+
+            subprocess.call(['autonl', dir + '/input1.txt', dir + '/input2.txt'])
+
+            with open(dir + '/input1.txt', 'r') as fp:
+                actual1 = fp.read()
+
+            with open(dir + '/input2.txt', 'r') as fp:
+                actual2 = fp.read()
+
+        expected = 'abc\ndef\nghi\n'
+
+        self.assertEqual(expected, actual1)
+        self.assertEqual(expected, actual2)
